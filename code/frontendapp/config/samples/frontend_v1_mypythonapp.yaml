@@ -1,0 +1,27 @@
+apiVersion: frontend.stickers.com/v1
+kind: MyPythonApp
+metadata:
+  labels:
+    app.kubernetes.io/name: mypythonapp
+    app.kubernetes.io/instance: mypythonapp-sample
+    app.kubernetes.io/part-of: frontendapp
+    app.kubernetes.io/managed-by: kustomize
+    app.kubernetes.io/created-by: frontendapp
+  name: mypythonapp-sample
+spec:
+  companyName: Stickers Company
+  applicationDescription: Emoji generator application
+  appContainerName: myapp-container
+  appImage: sachinhr/my-python-app
+  appPort: 5001
+  monitorContainerName: monitoring-container
+  monitorImage: busybox:latest
+  monitorCommand: "sh -c 'while true; do wget -O /dev/null http://localhost:5001; sleep 10; done'"
+  size: 3
+  service:
+    name: http
+    protocol: TCP
+    port: 80
+    targetPort: 5001
+    nodePort: 30000
+    type: NodePort

@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: myapp-replicaset
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: myapp-pod
+  template:
+    metadata:
+      name: myapp-pod
+      labels:
+        app: myapp-pod
+    spec:
+      containers:
+      - name: myapp-container
+        image: myapp-image:latest
+        ports:
+        - containerPort: 5000
+      - name: monitoring-container
+        image: busybox:latest
+        command: ['sh', '-c', 'while true; do wget -O /dev/null http://localhost:5000; sleep 10; done']
